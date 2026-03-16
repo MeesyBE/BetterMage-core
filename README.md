@@ -13,7 +13,11 @@ Shared foundation for all BetterMagento modules. Provides config abstraction, a 
 ## Installation
 
 ```bash
-composer require bettermagento/module-core
+# Manual install only (Composer install is currently not supported).
+# Copy this package into app/code/BetterMagento/<ModuleName> and run:
+php bin/magento setup:upgrade
+php bin/magento cache:flush
+
 bin/magento module:enable BetterMagento_Core
 bin/magento setup:upgrade
 ```
@@ -253,8 +257,7 @@ export MAGENTO_ROOT=/var/www/magento
 
 ```bash
 cd packages/core
-composer install
-./vendor/bin/phpunit
+# Manual install only (skip composer install for now)../vendor/bin/phpunit
 ```
 
 ### Static analysis
