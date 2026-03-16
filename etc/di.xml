@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Interface preferences -->
+    <preference for="BetterMagento\Core\Api\ConfigInterface"
+                type="BetterMagento\Core\Model\Config"/>
+
+    <preference for="BetterMagento\Core\Api\LoggerInterface"
+                type="BetterMagento\Core\Model\Logger"/>
+
+    <preference for="BetterMagento\Core\Api\Data\ResultInterface"
+                type="BetterMagento\Core\Model\Data\Result"/>
+
+    <!--
+        Dedicated Monolog handler writing to var/log/bettermagento.log.
+        All BM modules share this single log file for easy tail-f debugging.
+    -->
+    <virtualType name="BetterMagentoLoggerHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/bettermagento.log</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Monolog logger instance bound to the handler above -->
+    <virtualType name="BetterMagentoMonologLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="name" xsi:type="string">BetterMagento</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">BetterMagentoLoggerHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Wire the concrete PSR logger into BetterMagento\Core\Model\Logger -->
+    <type name="BetterMagento\Core\Model\Logger">
+        <arguments>
+            <argument name="psrLogger" xsi:type="object">BetterMagentoMonologLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Register CLI commands -->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="bettermagento_status" xsi:type="object">BetterMagento\Core\Console\Command\StatusCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

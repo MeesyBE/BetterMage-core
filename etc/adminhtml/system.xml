@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bettermagento" translate="label" sortOrder="900">
+            <label>BetterMagento</label>
+        </tab>
+
+        <section id="bettermagento_general"
+                 translate="label"
+                 type="text"
+                 sortOrder="10"
+                 showInDefault="1"
+                 showInWebsite="1"
+                 showInStore="1">
+            <tab>bettermagento</tab>
+            <label>General</label>
+            <resource>BetterMagento_Core::config</resource>
+
+            <group id="general"
+                   translate="label"
+                   type="text"
+                   sortOrder="10"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+                <label>General Settings</label>
+
+                <field id="enabled"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Enable BetterMagento</label>
+                    <comment>Master switch for all BetterMagento modules.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="debug_mode"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="20"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
+                    <label>Debug Mode</label>
+                    <comment><![CDATA[Enables verbose logging to <code>var/log/bettermagento.log</code>. Disable on production.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="log_level"
+                       translate="label"
+                       type="select"
+                       sortOrder="30"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
+                    <label>Log Level</label>
+                    <depends>
+                        <field id="debug_mode">1</field>
+                    </depends>
+                    <source_model>BetterMagento\Core\Model\Config\Source\LogLevel</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

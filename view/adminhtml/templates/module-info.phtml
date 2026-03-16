@@ -1,0 +1,48 @@
+<?php
+/** @var \BetterMagento\Core\Block\Adminhtml\BmModuleInfo $block */
+$modules = $block->getBmModules();
+$count   = $block->getModuleCount();
+?>
+<div class="admin__data-grid-wrap" style="margin-bottom:1.5rem">
+    <div class="admin__data-grid-header">
+        <span class="admin__data-grid-header-item title">
+            <strong><?= $block->escapeHtml(__('BetterMagento Modules')) ?></strong>
+            <span class="admin__data-grid-header-item-count"><?= (int) $count ?></span>
+        </span>
+    </div>
+
+    <?php if (empty($modules)): ?>
+        <div class="message message-notice notice" style="margin:1rem 0">
+            <div><?= $block->escapeHtml(__('No BetterMagento modules are currently enabled.')) ?></div>
+        </div>
+    <?php else: ?>
+        <table class="data-table admin__table-primary" style="width:100%">
+            <thead>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Module')) ?></th>
+                    <th><?= $block->escapeHtml(__('Version')) ?></th>
+                    <th><?= $block->escapeHtml(__('Core Dep')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($modules as $row): ?>
+                    <tr>
+                        <td>
+                            <code><?= $block->escapeHtml($row['name']) ?></code>
+                        </td>
+                        <td><?= $block->escapeHtml($row['version']) ?></td>
+                        <td>
+                            <?php if ($row['is_core']): ?>
+                                <span style="color:#6c757d">—</span>
+                            <?php elseif ($row['has_core_dep']): ?>
+                                <span style="color:#28a745" title="<?= $block->escapeHtmlAttr(__('Declares dependency on BetterMagento_Core')) ?>">✓</span>
+                            <?php else: ?>
+                                <span style="color:#dc3545" title="<?= $block->escapeHtmlAttr(__('Missing sequence dependency on BetterMagento_Core')) ?>">!</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>

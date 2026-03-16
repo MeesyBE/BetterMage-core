@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+    Default config values for all BetterMagento modules.
+    These are the fallback values used when no admin override exists.
+    Config namespace: bettermagento/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bettermagento>
+            <general>
+                <enabled>1</enabled>
+                <debug_mode>0</debug_mode>
+                <log_level>info</log_level>
+            </general>
+        </bettermagento>
+    </default>
+</config>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+    Layout XML to add the BetterMagento module status widget to the admin dashboard.
+    Place this in your project's layout override or within BM modules that want to
+    show the widget:
+
+        app/design/adminhtml/default/BetterMagento_Core/layout/adminhtml_dashboard_index.xml
+
+    OR include it directly from another BM module's layout folder.
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="BetterMagento\Core\Block\Adminhtml\BmModuleInfo"
+                   name="bettermagento.module.info"
+                   template="BetterMagento_Core::module-info.phtml"
+                   before="-"/>
+        </referenceContainer>
+    </body>
+</page>

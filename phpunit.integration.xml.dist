@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Integration test PHPUnit configuration.
+
+    Usage:
+        export MAGENTO_ROOT=/var/www/magento
+        ./vendor/bin/phpunit -c phpunit.integration.xml.dist
+
+    Without MAGENTO_ROOT, all integration tests are auto-skipped (standalone mode).
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="Test/Integration/bootstrap.php"
+         cacheDirectory=".phpunit.integration.cache"
+         colors="true"
+         failOnWarning="true">
+
+    <testsuites>
+        <testsuite name="Integration">
+            <directory>Test/Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1"/>
+    </php>
+
+</phpunit>
