@@ -1,10 +1,17 @@
 # BetterMagento Core
 
+[![PHP Version](https://img.shields.io/badge/php-8.2%2B-blue)](https://php.net)
+[![Magento Version](https://img.shields.io/badge/magento-2.4.x%2B-orange)](https://magento.com)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Magevanta Suite](https://img.shields.io/badge/Magevanta-Premium%20Extensions-f97316)](https://magevanta.com/extensions)
+
 **Composer package:** `bettermagento/module-core`  
 **Magento module:** `BetterMagento_Core`  
 **PHP:** ≥ 8.2 | **Magento:** ≥ 2.4.x / Mage-OS
 
 Shared foundation for all BetterMagento modules. Provides config abstraction, a unified logger, a result-value object, abstract CLI tooling, and the shared admin config section.
+
+> 🚀 Part of the [Magevanta Extension Suite](https://magevanta.com/extensions) — premium Magento 2 performance extensions.
 
 **No other BM module works without this package.**
 
