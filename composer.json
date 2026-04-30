@@ -2,8 +2,11 @@
     "name": "bettermagento/module-core",
     "description": "BetterMagento Core — Shared foundation for all BetterMagento modules",
     "type": "magento2-module",
-    "version": "0.4.0",
-    "keywords": ["magento2", "bettermagento", "core"],
+    "keywords": [
+        "magento2",
+        "bettermagento",
+        "core"
+    ],
     "license": "MIT",
     "require": {
         "php": ">=8.2",
@@ -17,7 +20,9 @@
         "phpstan/phpstan-magento": "^0.12"
     },
     "autoload": {
-        "files": ["registration.php"],
+        "files": [
+            "registration.php"
+        ],
         "psr-4": {
             "BetterMagento\\Core\\": ""
         }
