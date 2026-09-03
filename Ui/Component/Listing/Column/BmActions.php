@@ -32,6 +32,10 @@ use Magento\Ui\Component\Listing\Columns\Column;
  */
 class BmActions extends Column
 {
+    /**
+     * @param array<string, mixed> $components
+     * @param array<string, mixed> $data
+     */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,

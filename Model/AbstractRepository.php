@@ -7,6 +7,7 @@ namespace BetterMagento\Core\Model;
 use BetterMagento\Core\Api\RepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\Api\SearchResultsInterfaceFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -49,6 +50,8 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
  *   }
  *
  * @template TModel of AbstractModel
+ * @template TId of int|string
+ * @implements RepositoryInterface<TModel, TId>
  */
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -146,7 +149,11 @@ abstract class AbstractRepository implements RepositoryInterface
 
         $results = $this->searchResultsFactory->create();
         $results->setSearchCriteria($searchCriteria);
-        $results->setItems($collection->getItems());
+        $items = array_values(array_filter(
+            $collection->getItems(),
+            static fn($item) => $item instanceof ExtensibleDataInterface
+        ));
+        $results->setItems($items);
         $results->setTotalCount($collection->getSize());
 
         return $results;
