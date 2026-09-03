@@ -28,6 +28,9 @@ class BmModuleInfo extends Template
 {
     private const BM_PREFIX = 'BetterMagento_';
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __construct(
         Context $context,
         private readonly ModuleListInterface $moduleList,
@@ -45,7 +48,7 @@ class BmModuleInfo extends Template
      * Each row:
      *   ['name' => string, 'version' => string, 'has_core_dep' => bool]
      *
-     * @return list<array{name: string, version: string, has_core_dep: bool}>
+     * @return list<array{name: int|string, version: string, has_core_dep: bool, is_core: bool}>
      */
     public function getBmModules(): array
     {

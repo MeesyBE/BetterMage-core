@@ -46,7 +46,7 @@ class StatusCommand extends AbstractBmCommand
         parent::configure();
 
         $this->setDescription('Show status of all installed BetterMagento modules.')
-            ->setName(self::$defaultName)
+            ->setName(self::$defaultName ?? 'bettermagento:status')
             ->addOption(
                 'format',
                 'f',
@@ -152,10 +152,11 @@ class StatusCommand extends AbstractBmCommand
             ];
         }
 
-        $this->output->writeln(json_encode(
+        $json = json_encode(
             ['modules' => $data, 'count' => count($data)],
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES,
-        ));
+        );
+        $this->output->writeln($json === false ? '[]' : $json);
     }
 
     /**

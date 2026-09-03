@@ -100,9 +100,7 @@ class PerformanceMonitor implements PerformanceMonitorInterface
         }
 
         foreach ($grouped as &$stats) {
-            $stats['avg_ms'] = $stats['count'] > 0
-                ? round($stats['total_ms'] / $stats['count'], 3)
-                : 0.0;
+            $stats['avg_ms'] = round($stats['total_ms'] / $stats['count'], 3);
             $stats['total_ms'] = round($stats['total_ms'], 3);
         }
 
@@ -111,7 +109,7 @@ class PerformanceMonitor implements PerformanceMonitorInterface
 
     public function isActive(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_DEBUG_MODE);
+        return (bool) $this->scopeConfig->isSetFlag(self::CONFIG_DEBUG_MODE);
     }
 
     public function clearMetrics(): void

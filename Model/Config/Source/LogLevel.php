@@ -8,6 +8,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class LogLevel implements OptionSourceInterface
 {
+    /**
+     * @return list<array{value: string, label: \Magento\Framework\Phrase}>
+     */
     public function toOptionArray(): array
     {
         return [
