@@ -13,5 +13,5 @@ parameters:
 
 includes:
     - phar://phpstan.phar/conf/bleedingEdge.neon
-    - vendor/phpstan/phpstan-magento/extension.neon
+    - vendor/bitexpert/phpstan-magento/extension.neon
 

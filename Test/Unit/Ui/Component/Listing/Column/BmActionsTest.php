@@ -138,3 +138,5 @@ class BmActionsTest extends TestCase
         self::assertArrayHasKey('edit', $result['data']['items'][0]['actions']);
         self::assertArrayHasKey('delete', $result['data']['items'][0]['actions']);
     }
+
+}
