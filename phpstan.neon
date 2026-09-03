@@ -9,7 +9,6 @@ parameters:
     excludePaths:
         - Test
     # Magento uses mixed types extensively in interfaces — tolerate at boundaries
-    checkMissingIterableValueType: false
 
 includes:
     - phar://phpstan.phar/conf/bleedingEdge.neon
