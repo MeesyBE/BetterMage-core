@@ -1,6 +1,6 @@
 {
     "name": "bettermagento/module-core",
-    "description": "BetterMagento Core — Shared foundation for all BetterMagento modules",
+    "description": "BetterMagento Core \u2014 Shared foundation for all BetterMagento modules",
     "type": "magento2-module",
     "keywords": [
         "magento2",
@@ -10,14 +10,14 @@
     "license": "MIT",
     "require": {
         "php": ">=8.2",
-        "magento/framework": ">=107.0.0",
+        "magento/framework": "^103.0",
         "psr/log": "^3.0",
         "monolog/monolog": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^1.10",
-        "phpstan/phpstan-magento": "^0.12"
+        "bitexpert/phpstan-magento": "^0.12"
     },
     "autoload": {
         "files": [
@@ -31,5 +31,11 @@
         "psr-4": {
             "BetterMagento\\Core\\Test\\": "Test"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ]
 }
