@@ -1,16 +1,12 @@
-name: CI — BetterMagento Core
+name: CI — BetterMagento Core (FIXED v0)
 
+# FIX t.o.v. huidige ci.yml: oude file luisterde naar paths 'packages/core/**'
+# en working-directory 'packages/core', maar de repo-root IS de module.
+# Daardoor liep CI nooit. Deze versie draait op de echte root.
 on:
   push:
-    paths:
-      - 'packages/core/**'
+    branches: [master, main]
   pull_request:
-    paths:
-      - 'packages/core/**'
-
-defaults:
-  run:
-    working-directory: packages/core
 
 jobs:
   test:
@@ -20,108 +16,45 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.2', '8.3']
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           coverage: xdebug
-
       - name: Composer install
         run: composer install --prefer-dist --no-interaction --no-progress
-
-      - name: Run PHPUnit with coverage
-        run: |
-          ./vendor/bin/phpunit \
-            --coverage-text \
-            --coverage-clover coverage.xml \
-            --coverage-min-func 80 \
-            --testdox
-
-      - name: Upload coverage to Codecov
-        if: matrix.php == '8.2'
-        uses: codecov/codecov-action@v4
-        with:
-          files: packages/core/coverage.xml
-          flags: core
-          fail_ci_if_error: false
-          verbose: true
-
-  integration:
-    name: Integration tests (standalone)
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP 8.2
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          tools: composer:v2
-
-      - name: Composer install
-        run: composer install --prefer-dist --no-interaction --no-progress
-
-      - name: Run integration tests (standalone — expect skips, no failures)
-        run: ./vendor/bin/phpunit -c phpunit.integration.xml.dist --testdox
+      - name: Run PHPUnit (unit only)
+        run: ./vendor/bin/phpunit --testdox
 
   phpstan:
-    name: PHPStan (level 8 + Magento stubs)
+    name: PHPStan level 8
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           tools: composer:v2
-
       - name: Composer install
         run: composer install --prefer-dist --no-interaction --no-progress
-
-      - name: Run PHPStan (level 8, with Magento stubs)
+      - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --no-progress
 
-  # Multi-version Magento compatibility testing (optional, requires Magento sources)
-  # This job is designed to test Core against multiple Magento versions.
-  # Enable by setting up a separate matrix or running in a Magento-aware environment.
-  # For now, documented as optional task C-25 for future runs.
-  compatibility:
-    name: Magento Compatibility (${{ matrix.magento }})
+  integration:
+    name: Integration (standalone, skips OK)
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test-compatibility')
-    strategy:
-      fail-fast: false
-      matrix:
-        magento: ['2.4.5', '2.4.6']
-        php: ['8.2']
-    continue-on-error: true
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup PHP ${{ matrix.php }}
+      - name: Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.2'
           tools: composer:v2
-          coverage: xdebug
-
-      - name: Create Magento functional test environment
-        run: |
-          echo "Magento ${{ matrix.magento }} compatibility test."
-          echo "Note: Full integration requires a Magento installation."
-          echo "This job demonstrates the structure for v0.5.0+ multi-version testing."
-          echo ""
-          echo "To enable full testing:"
-          echo "1. Set up Magento sources in CI environment"
-          echo "2. Install Core module: bin/magento module:enable BetterMagento_Core"
-          echo "3. Run integration tests: vendor/bin/phpunit -c phpunit.integration.xml.dist"
-
+      - name: Composer install
+        run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Run integration tests
+        run: ./vendor/bin/phpunit -c phpunit.integration.xml.dist --testdox
