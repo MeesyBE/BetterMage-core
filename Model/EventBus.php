@@ -55,7 +55,7 @@ class EventBus implements EventBusInterface
 
     public function isRecording(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_DEBUG_MODE);
+        return (bool) $this->scopeConfig->isSetFlag(self::CONFIG_DEBUG_MODE);
     }
 
     public function clearRecordedEvents(): void
