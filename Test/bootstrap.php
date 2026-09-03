@@ -12,7 +12,7 @@ declare(strict_types=1);
  */
 
 namespace {
-    require __DIR__ . '/../../vendor/autoload.php';
+    require __DIR__ . '/../vendor/autoload.php';
 }
 
 namespace Magento\Framework\Api {
