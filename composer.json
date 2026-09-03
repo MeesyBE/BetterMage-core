@@ -14,7 +14,8 @@
         "psr/log": "^3.0",
         "monolog/monolog": "^3.0",
         "magento/module-backend": "^101.0 || ^102.0 || ^103.0",
-        "magento/module-ui": "^101.0 || ^102.0 || ^103.0"
+        "magento/module-ui": "^101.0 || ^102.0 || ^103.0",
+        "magento/module-directory": "^101.0 || ^102.0 || ^103.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",

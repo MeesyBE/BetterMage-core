@@ -8,6 +8,8 @@ use BetterMagento\Core\Block\Adminhtml\BmModuleInfo;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Module\PackageInfo;
+use Magento\Framework\Json\Helper\Data as JsonHelper;
+use Magento\Directory\Helper\Data as DirectoryHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -28,6 +30,9 @@ class BmModuleInfoTest extends TestCase
             $this->context,
             $this->moduleList,
             $this->packageInfo,
+            [],
+            $this->createMock(JsonHelper::class),
+            $this->createMock(DirectoryHelper::class),
         );
     }
 
