@@ -99,4 +99,42 @@ class LoggerTest extends TestCase
 
         $this->logger->critical('disk full', ['path' => '/var/log']);
     }
+
+    // ---- alert / emergency / notice / log (PSR-3 completeness) ---------------
+
+    public function testAlertDelegates(): void
+    {
+        $this->psrLogger->expects(self::once())
+            ->method('alert')
+            ->with('must act now', ['sev' => 1]);
+
+        $this->logger->alert('must act now', ['sev' => 1]);
+    }
+
+    public function testEmergencyDelegates(): void
+    {
+        $this->psrLogger->expects(self::once())
+            ->method('emergency')
+            ->with('system down', []);
+
+        $this->logger->emergency('system down');
+    }
+
+    public function testNoticeDelegates(): void
+    {
+        $this->psrLogger->expects(self::once())
+            ->method('notice')
+            ->with('heads up', ['n' => 2]);
+
+        $this->logger->notice('heads up', ['n' => 2]);
+    }
+
+    public function testLogDelegatesWithLevel(): void
+    {
+        $this->psrLogger->expects(self::once())
+            ->method('log')
+            ->with(\Psr\Log\LogLevel::WARNING, 'via log()', ['ctx' => true]);
+
+        $this->logger->log(\Psr\Log\LogLevel::WARNING, 'via log()', ['ctx' => true]);
+    }
 }

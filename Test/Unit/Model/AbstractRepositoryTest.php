@@ -252,4 +252,23 @@ class AbstractRepositoryTest extends TestCase
         $this->repository->evict(20);
         $this->repository->getById(20);
     }
+
+    // ---- deleteById ---------------------------------------------------------
+
+    public function testDeleteByIdLoadsThenDeletesModel(): void
+    {
+        $this->model->method('getId')->willReturn(30);
+
+        $this->resourceModel
+            ->expects(self::once())
+            ->method('load')
+            ->with($this->model, 30);
+
+        $this->resourceModel
+            ->expects(self::once())
+            ->method('delete')
+            ->with($this->model);
+
+        $this->repository->deleteById(30);
+    }
 }
