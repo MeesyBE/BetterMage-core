@@ -18,11 +18,9 @@
             <directory suffix=".php">Api</directory>
             <directory suffix=".php">Model</directory>
             <directory suffix=".php">Console</directory>
+            <directory suffix=".php">Ui</directory>
+            <directory suffix=".php">Block</directory>
         </include>
-        <exclude>
-            <!-- Source models are thin wrappers; exclude from coverage requirement -->
-            <directory>Model/Config/Source</directory>
-        </exclude>
         <report>
             <clover outputFile="coverage.xml"/>
             <text outputFile="php://stdout" showOnlySummary="true"/>

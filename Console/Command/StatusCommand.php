@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class StatusCommand extends AbstractBmCommand
 {
-    protected static $defaultName = 'bettermagento:status';
+    protected static ?string $defaultName = 'bettermagento:status';
 
     private const BM_PREFIX = 'BetterMagento_';
 

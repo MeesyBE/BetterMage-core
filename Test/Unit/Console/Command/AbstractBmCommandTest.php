@@ -157,4 +157,16 @@ class AbstractBmCommandTest extends TestCase
 
         self::assertMatchesRegularExpression('/\d+ ms/', $this->output->fetch());
     }
+
+    public function testCreateProgressBarReturnsConfiguredBar(): void
+    {
+        $cmd   = $this->makeCommand(Command::SUCCESS);
+        $cmd->run($this->input, $this->output);
+
+        $bar = $cmd->expose('createProgressBar', 10);
+
+        self::assertInstanceOf(\Symfony\Component\Console\Helper\ProgressBar::class, $bar);
+        // Factory wires the max step count into the bar.
+        self::assertSame(10, $bar->getMaxSteps());
+    }
 }

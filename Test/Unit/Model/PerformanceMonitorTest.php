@@ -107,4 +107,29 @@ class PerformanceMonitorTest extends TestCase
         self::assertCount(0, $monitor->getMetrics());
         self::assertFalse($monitor->isActive());
     }
+
+    public function testSlowOperationLogsWarningAndAddsMetadataToContext(): void
+    {
+        // Back-date the running timer so the elapsed span exceeds the 1000 ms
+        // threshold without actually sleeping (microtime is not injectable).
+        $timers = new \ReflectionProperty(PerformanceMonitor::class, 'timers');
+        $timers->setAccessible(true);
+        $timers->setValue($this->monitor, ['slow.op' => microtime(true) - 2.0]);
+
+        $this->logger->expects(self::once())
+            ->method('warning')
+            ->with(
+                self::stringContains('slow.op'),
+                self::callback(static fn(array $ctx): bool => $ctx['elapsed_ms'] >= 1000.0 && $ctx['src'] === 'perf'),
+            );
+
+        $elapsed = $this->monitor->stop('slow.op', ['src' => 'perf']);
+
+        self::assertGreaterThanOrEqual(1000.0, $elapsed);
+
+        $metrics = $this->monitor->getMetrics();
+        self::assertCount(1, $metrics);
+        self::assertSame('slow.op', $metrics[0]['operation']);
+        self::assertSame(['src' => 'perf'], $metrics[0]['metadata']);
+    }
 }
