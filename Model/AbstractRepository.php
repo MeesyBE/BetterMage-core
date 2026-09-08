@@ -117,7 +117,10 @@ abstract class AbstractRepository implements RepositoryInterface
 
         // Refresh cache entry after save (ID may have changed for new records)
         if ($model->getId()) {
-            $this->cache[$model->getId()] = $model;
+            $id = $model->getId();
+            if (is_int($id) || is_string($id)) {
+                $this->cache[$id] = $model;
+            }
         }
 
         return $model;
@@ -128,7 +131,9 @@ abstract class AbstractRepository implements RepositoryInterface
         try {
             $id = $model->getId();
             $this->resourceModel->delete($model);
-            unset($this->cache[$id]);
+            if (is_int($id) || is_string($id)) {
+                unset($this->cache[$id]);
+            }
         } catch (\Exception $e) {
             throw new CouldNotDeleteException(
                 __('Could not delete: %1', $e->getMessage()),

@@ -52,6 +52,7 @@ class BmModuleInfo extends Template
      */
     public function getBmModules(): array
     {
+        /** @var array<string, array{setup_version?: string, schema_version?: string, sequence?: mixed}> $all */
         $all = $this->moduleList->getAll();
         $rows = [];
 

@@ -31,6 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class StatusCommand extends AbstractBmCommand
 {
+    /** @var string */
     protected static $defaultName = 'bettermagento:status';
 
     private const BM_PREFIX = 'BetterMagento_';
@@ -46,7 +47,7 @@ class StatusCommand extends AbstractBmCommand
         parent::configure();
 
         $this->setDescription('Show status of all installed BetterMagento modules.')
-            ->setName(self::$defaultName ?? 'bettermagento:status')
+            ->setName(self::$defaultName)
             ->addOption(
                 'format',
                 'f',
@@ -60,6 +61,7 @@ class StatusCommand extends AbstractBmCommand
     {
         $this->title('BetterMagento Module Status');
 
+        /** @var array<string, array{setup_version?: string, schema_version?: string, sequence?: mixed}> $allModules */
         $allModules = $this->moduleList->getAll();
 
         $bmModules = array_filter(
@@ -89,7 +91,7 @@ class StatusCommand extends AbstractBmCommand
     /**
      * Render modules as an ASCII table with color-coded indicators.
      *
-     * @param array<string, array<string, mixed>> $bmModules
+     * @param array<string, array{setup_version?: string, schema_version?: string, sequence?: mixed}> $bmModules
      */
     private function outputTable(array $bmModules): void
     {
@@ -136,7 +138,7 @@ class StatusCommand extends AbstractBmCommand
     /**
      * Render modules as JSON for scripting.
      *
-     * @param array<string, array<string, mixed>> $bmModules
+     * @param array<string, array{setup_version?: string, schema_version?: string, sequence?: mixed}> $bmModules
      */
     private function outputJson(array $bmModules): void
     {
@@ -162,7 +164,7 @@ class StatusCommand extends AbstractBmCommand
     /**
      * Render modules as CSV for import/analysis.
      *
-     * @param array<string, array<string, mixed>> $bmModules
+     * @param array<string, array{setup_version?: string, schema_version?: string, sequence?: mixed}> $bmModules
      */
     private function outputCsv(array $bmModules): void
     {
