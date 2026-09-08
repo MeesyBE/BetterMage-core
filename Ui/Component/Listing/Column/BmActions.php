@@ -48,6 +48,7 @@ class BmActions extends Column
 
     /**
      * @param array<string, mixed> $dataSource
+     * @phpstan-param array{data?: array{items?: list<array<string, mixed>>}} $dataSource
      * @return array<string, mixed>
      */
     public function prepareDataSource(array $dataSource): array
@@ -56,11 +57,13 @@ class BmActions extends Column
             return $dataSource;
         }
 
+        /** @var array{viewUrlPath?: string, editUrlPath?: string, deleteUrlPath?: string, indexField?: string} $config */
         $config       = $this->getData('config');
         $viewUrl      = (string) ($config['viewUrlPath'] ?? '');
         $editUrl      = (string) ($config['editUrlPath'] ?? '*/*/edit');
         $deleteUrl    = (string) ($config['deleteUrlPath'] ?? '*/*/delete');
         $indexField   = (string) ($config['indexField'] ?? 'id');
+        /** @var string $columnName */
         $columnName   = $this->getData('name');
 
         foreach ($dataSource['data']['items'] as &$item) {
@@ -69,18 +72,19 @@ class BmActions extends Column
                 continue;
             }
 
+            $actions = [];
             if ($viewUrl) {
-                $item[$columnName]['view'] = [
+                $actions['view'] = [
                     'href'  => $this->urlBuilder->getUrl($viewUrl, [$indexField => $id]),
                     'label' => __('View'),
                 ];
             }
 
-            $item[$columnName]['edit'] = [
+            $actions['edit'] = [
                 'href'  => $this->urlBuilder->getUrl($editUrl, [$indexField => $id]),
                 'label' => __('Edit'),
             ];
-            $item[$columnName]['delete'] = [
+            $actions['delete'] = [
                 'href'    => $this->urlBuilder->getUrl($deleteUrl, [$indexField => $id]),
                 'label'   => __('Delete'),
                 'confirm' => [
@@ -89,6 +93,9 @@ class BmActions extends Column
                 ],
                 'post'    => true,
             ];
+
+            $existing = $item[$columnName] ?? null;
+            $item[$columnName] = is_array($existing) ? array_replace($existing, $actions) : $actions;
         }
         unset($item);
 
