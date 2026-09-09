@@ -122,3 +122,6 @@ php bin/magento cache:flush
 5. **Module enabled but admin section / CLI missing.**
    You likely skipped `setup:upgrade` or ran it before `module:enable`. Re-run step 5 in order,
    then `cache:flush`.
+
+> Still stuck? See the full [troubleshooting guide](TROUBLESHOOTING-EN.md) (top-10 pitfalls +
+> checklist) and the [FAQ](FAQ-EN.md) for common follow-up questions.
